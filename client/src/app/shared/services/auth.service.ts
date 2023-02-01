@@ -15,9 +15,9 @@ export class AuthService {
   }
 
   register(user: User): Observable<User>{
-    return this.http.post<User>('/',user)
+    return this.http.post<User>('/api/auth/register',user)
   }
-  login(user: User): Observable<{token:string}>{
+  login(user: User): Observable<{token:string | null}>{
    return this.http.post<{token:string}>('/api/auth/login',user)
     .pipe(
       tap(

@@ -1,1 +1,55 @@
-<p>history-page works!</p>
+<div class="page-title">
+  <h4>Order history</h4>
+  <button
+  (click)="isFilterVisible = !isFilterVisible"
+  [ngClass]="{'active':isFilterVisible, 'red': isFiltered()}"
+  class="btn btn-small"
+  data-tooltip="Открыть фильтр"
+  data-tooltip="left"
+  #tooltip
+  >
+      <i class="material-icons">filter_list</i>
+  </button>
+</div>
+
+<app-history-filter
+(onFilter)="applyFilter($event)"
+  *ngIf="isFilterVisible"
+></app-history-filter>
+
+
+<div *ngIf="!reloading; else reloadingBlock">
+  <div *ngIf="orders.length > 0; else empty">
+    <app-history-list [orders]="orders"></app-history-list>
+    <div
+    *ngIf="!noMoreOrders"
+    class="center mb2"
+    >
+      <button
+      *ngIf="!loading;else loader"
+      (click)="loadMore()"
+      class="btn waves-effect grey darken-1 btn-small"
+      >
+      Download more
+    </button>
+    <ng-template #loader>
+      <app-loader></app-loader>
+    </ng-template>
+    </div>
+  </div>
+  <ng-template #empty>
+    <div class="center">
+      No orders
+    </div>
+  </ng-template>
+</div>
+
+
+<ng-template #reloadingBlock>
+  <app-loader></app-loader>
+</ng-template>
+
+
+
+
+
